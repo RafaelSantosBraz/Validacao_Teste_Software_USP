@@ -6,5 +6,5 @@ public class Main {
 		Jogo jogo =  new Jogo();
 		jogo.jogar();		
 	}
-
+	
 }
