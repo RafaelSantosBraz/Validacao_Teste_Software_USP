@@ -260,28 +260,9 @@ class JogoTest {
 	
 	@Test
 	void teste15() {
-		//Provar que o jogo uma hora sempre resulta em uma matriz de zeros
-		//Jogar até a matriz resultar apenas em zeros
 		Jogo jogo = new Jogo();
-		int[][] tabuleiroAnterior = jogo.gerarTabuleiroAleatorio();
-		while (true) {
-			jogo.printTabuleiro(tabuleiroAnterior);
-			int[][] tabuleiroAtual = jogo.gerarProximaGeracao(tabuleiroAnterior);
-			jogo.printTabuleiro(tabuleiroAtual);
-			tabuleiroAnterior = tabuleiroAtual;
-			if (!jogo.getContinuar()) {
-				break;
-			}
-		}
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }			
-		};		
-		int [][] resultado = tabuleiroAnterior;
-		assertArrayEquals(esperado, resultado);
+		boolean esperado = true;
+		boolean resultado = jogo.jogar();
+		assertEquals(esperado, resultado);
 	}
 }

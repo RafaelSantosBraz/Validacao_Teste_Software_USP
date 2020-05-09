@@ -108,7 +108,7 @@ public class Jogo {
 		return count;
 	}
 
-	public void jogar() {
+	public boolean jogar() {
 		int[][] tabuleiroAnterior = gerarTabuleiroAleatorio();
 		while (true) {
 			printTabuleiro(tabuleiroAnterior);
@@ -119,6 +119,7 @@ public class Jogo {
 				break;
 			}
 		}
+		return true;
 	}
 
 	public void printTabuleiro(int[][] tabuleiro) {
