@@ -17,7 +17,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
@@ -26,7 +26,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 
 	@Test
@@ -40,7 +40,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
@@ -49,7 +49,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 1, 1, 1, 0, 0 },
 			{ 0, 1, 0, 1, 0, 0 },
@@ -72,7 +72,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 1, 1, 0, 0 },
@@ -95,7 +95,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -109,7 +109,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 1, 0, 0, 0 },
 			{ 0, 0, 1, 0, 0, 0 },
@@ -118,7 +118,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -132,7 +132,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
@@ -141,7 +141,7 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }
 		};
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -174,9 +174,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 
 	@Test
@@ -189,9 +189,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -205,9 +205,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0 },			
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -221,9 +221,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 }
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -237,9 +237,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }			
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -253,9 +253,9 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }			
 		};
-		int[][] experado = null;
+		int[][] esperado = null;
 		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 	
 	@Test
@@ -273,7 +273,7 @@ class JogoTest {
 				break;
 			}
 		}
-		int[][] experado = new int[][] {
+		int[][] esperado = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
@@ -282,6 +282,6 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 }			
 		};		
 		int [][] resultado = tabuleiroAnterior;
-		assertArrayEquals(experado, resultado);
+		assertArrayEquals(esperado, resultado);
 	}
 }
