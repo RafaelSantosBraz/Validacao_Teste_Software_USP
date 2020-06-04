@@ -1,36 +1,35 @@
 package jogo;
 
 import java.util.Random;
-import java.util.Scanner;
 
-public class Jogo {
-
-	public final int n = 6;
-	public final int m = 6;
+public class JogoForTest {
 
 	public int[][] gerarTabuleiroAleatorio() {
-		int[][] tabuleiro = new int[n][m];
+		int[][] tabuleiro = new int[6][6];
 		Random random = new Random();
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
 				tabuleiro[i][j] = random.nextInt(2);
 			}
 		}
 		return tabuleiro;
 	}
 
-	public int[][] gerarProximaGeracao(int[][] tabuleiroAnterior) {
-		if (tabuleiroAnterior.length != n || tabuleiroAnterior[0].length != m) {
-			return null;
-		}
+	public int[][] gerarProximaGeracao(int[][] tabuleiroAnterior) {		
 		if (!tabuleiroValoresValidos(tabuleiroAnterior)) {
 			return null;
 		}
-		int[][] tabuleiroAtual = new int[n][m];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
+		int[][] tabuleiroAtual = new int[6][6];
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
 				int[] vizinhos = getVizinhos(tabuleiroAnterior, i, j);
+				if (vizinhos.length != 8) {
+					return null;
+				}
 				int celulasVivas = getQuantidadeCelulasVivas(vizinhos);
+				if (celulasVivas < 0 || celulasVivas > 8) {
+					return null;
+				}
 				if (tabuleiroAnterior[i][j] == 1) {
 					if (celulasVivas < 2) {
 						tabuleiroAtual[i][j] = 0;
@@ -97,6 +96,9 @@ public class Jogo {
 	}
 
 	public int getQuantidadeCelulasVivas(int[] vizinhos) {
+		if (vizinhos.length != 8) {
+			return -1;
+		}
 		int count = 0;
 		for (int i = 0; i < vizinhos.length; i++) {
 			if (vizinhos[i] == 1) {
@@ -106,46 +108,23 @@ public class Jogo {
 		return count;
 	}
 
-	public boolean jogar() {
-		int[][] tabuleiroAnterior = gerarTabuleiroAleatorio();
-		while (true) {
-			printTabuleiro(tabuleiroAnterior);
-			int[][] tabuleiroAtual = gerarProximaGeracao(tabuleiroAnterior);
-			printTabuleiro(tabuleiroAtual);
-			tabuleiroAnterior = tabuleiroAtual;
-			if (!getContinuar()) {
-				break;
-			}
-		}
-		return true;
-	}
-
-	public void printTabuleiro(int[][] tabuleiro) {
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				System.out.print(tabuleiro[i][j] + " ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-	}
-
-	public boolean getContinuar() {
-		System.out.println("Quer continuar?(s/n)");
-		Scanner s = new Scanner(System.in);
-		String resp = s.nextLine();
-		return (resp.equals("s") || resp.equals("S"));
-	}
-
 	public boolean tabuleiroValoresValidos(int[][] tabuleiro) {
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
+		if (tabuleiro.length != 6) {
+			return false;
+		}
+		for (int i = 0; i < 6; i++) {
+			if (tabuleiro[i].length != 6) {
+				return false;
+			}
+		}
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
 				if (tabuleiro[i][j] < 0 || tabuleiro[i][j] > 1) {
 					return false;
 				}
 			}
 		}
 		return true;
-	}	
-	
+	}
+
 }
