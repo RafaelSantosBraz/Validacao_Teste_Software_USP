@@ -51,6 +51,9 @@ public class JogoForTest {
 	}
 
 	public int[] getVizinhos(int[][] tabuleiro, int i, int j) {
+		if (!tabuleiroValoresValidos(tabuleiro)) {
+			return null;
+		}
 		int[] vizinhos = new int[8];
 		try {
 			vizinhos[0] = tabuleiro[i - 1][j - 1];

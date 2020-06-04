@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Jogo {
 
-	public final int n = 6;
-	public final int m = 6;
+	public static final int n = 6;
+	public static final int m = 6;
 
 	public int[][] gerarTabuleiroAleatorio() {
 		int[][] tabuleiro = new int[n][m];

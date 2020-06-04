@@ -242,11 +242,9 @@ class JogoTest {
 	}
 	
 	@Test
-	void teste15() {
-		Jogo jogo = new Jogo();
-		int esperado = 6;		
-		assertEquals(esperado, jogo.m);
-		assertEquals(esperado, jogo.n);
+	void teste15() {	
+		assertEquals(6, Jogo.m);
+		assertEquals(6, Jogo.n);
 	}
 	
 	@Test
