@@ -20,9 +20,6 @@ public class Jogo {
 	}
 
 	public int[][] gerarProximaGeracao(int[][] tabuleiroAnterior) {
-		if (tabuleiroAnterior.length != n || tabuleiroAnterior[0].length != m) {
-			return null;
-		}
 		if (!tabuleiroValoresValidos(tabuleiroAnterior)) {
 			return null;
 		}
@@ -99,9 +96,7 @@ public class Jogo {
 	public int getQuantidadeCelulasVivas(int[] vizinhos) {
 		int count = 0;
 		for (int i = 0; i < vizinhos.length; i++) {
-			if (vizinhos[i] == 1) {
-				count++;
-			}
+			count += vizinhos[i];
 		}
 		return count;
 	}
@@ -138,14 +133,20 @@ public class Jogo {
 	}
 
 	public boolean tabuleiroValoresValidos(int[][] tabuleiro) {
+		if (tabuleiro.length != n) {
+			return false;
+		}
 		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
+			if (tabuleiro[i].length != m) {
+				return false;
+			}
+			for (int j = 0; j < m; j++) {
 				if (tabuleiro[i][j] < 0 || tabuleiro[i][j] > 1) {
 					return false;
 				}
 			}
 		}
 		return true;
-	}	
-	
+	}
+
 }

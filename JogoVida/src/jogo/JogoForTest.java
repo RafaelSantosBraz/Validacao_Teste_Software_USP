@@ -6,7 +6,7 @@ public class JogoForTest {
 
 	public int[][] gerarTabuleiroAleatorio() {
 		int[][] tabuleiro = new int[6][6];
-		Random random = new Random();
+		Random random =  new Random();
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
 				tabuleiro[i][j] = random.nextInt(2);

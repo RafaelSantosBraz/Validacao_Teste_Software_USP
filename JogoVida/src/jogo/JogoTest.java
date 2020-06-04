@@ -7,148 +7,153 @@ import org.junit.jupiter.api.Test;
 class JogoTest {
 
 	@Test
-	void teste1() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-
-	@Test
-	void teste2() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
+	void testTabuleiroAleatorio() {
+		Jogo jogo = new Jogo();	
+		JogoForTest jogoCerto = new JogoForTest();	
+		int[][][] resInter = new int[][][] {
+			jogo.gerarTabuleiroAleatorio(),
+			jogo.gerarTabuleiroAleatorio()
+		};		
+		for (int i = 0; i < 6; i++) {
+			boolean resp =  true;
+			for (int j = 0; j < 6; j++) {
+				if(resInter[0][i][j] != resInter[1][i][j]) {
+					resp = false;
+					break;
+				}
+			}			
+			assertEquals(false, resp);
+		}		
+		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resInter[0]));
+		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resInter[1]));
+		
 	}
 	
 	@Test
-	void teste3() {
+	void testProximaGeracao() {
 		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 1, 1, 1, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 1, 1, 1, 0, 0 },
-			{ 0, 1, 0, 1, 0, 0 },
-			{ 0, 1, 1, 1, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
+		JogoForTest jogoCerto = new JogoForTest();
+		int count = 3;
+		do {
+			int[][] intermediario = jogoCerto.gerarTabuleiroAleatorio();
+			int[][] novo = jogo.gerarProximaGeracao(intermediario);
+			assertEquals(true, jogoCerto.tabuleiroValoresValidos(novo));
+			int[][] novoCerto = jogoCerto.gerarProximaGeracao(intermediario);			
+			assertArrayEquals(novoCerto, novo);
+			count--;
+		} while (count >= 0);
 	}
 	
 	@Test
-	void teste4() {
+	void testVizinhosCelulasVivas() {
 		Jogo jogo = new Jogo();
+		JogoForTest jogoCerto = new JogoForTest();
+		int count = 3;
+		do {
+			int[][] intermediario = jogoCerto.gerarTabuleiroAleatorio();
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 6; j++) {
+					int[] vizinhosCerto = jogoCerto.getVizinhos(intermediario, i, j);
+					int[] vizinhos = jogo.getVizinhos(intermediario, i, j);
+					assertArrayEquals(vizinhosCerto, vizinhos);
+					assertEquals(jogoCerto.getQuantidadeCelulasVivas(vizinhosCerto),jogo.getQuantidadeCelulasVivas(vizinhos));
+				}
+			}
+			count--;
+		} while (count >= 0);
+		
+	}
+	
+	@Test
+	void testValoresValidos() {
+		Jogo jogo = new Jogo();
+		JogoForTest jogoCerto = new JogoForTest();
+		int count = 3;
+		do {
+			int[][] intermediario = jogo.gerarTabuleiroAleatorio();
+			assertEquals(jogoCerto.tabuleiroValoresValidos(intermediario), jogo.tabuleiroValoresValidos(intermediario));
+			intermediario = jogoCerto.gerarTabuleiroAleatorio();
+			assertEquals(jogoCerto.tabuleiroValoresValidos(intermediario), jogo.tabuleiroValoresValidos(intermediario));
+			count--;
+		} while (count >= 0);
+		int[][] intermediario  = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				intermediario[i][j] = -1;
+				assertEquals(false, jogo.tabuleiroValoresValidos(intermediario));
+				intermediario[i][j] = 2;
+				assertEquals(false, jogo.tabuleiroValoresValidos(intermediario));
+				intermediario[i][j] = 0;
+			}			
+		}	
+	}
+	
+	@Test
+	void testeEspecifico() {
+		Jogo jogo = new Jogo();
+		JogoForTest jogoCorreto = new JogoForTest();
 		int[][] tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 1, 0, 0, 0 },
+			{ 0, 1, 1, 1, 0, 0 },
+			{ 0, 0, 1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 1, 0, 0, 0 },
 			{ 0, 0, 0, 1, 0, 0 },
 			{ 0, 0, 1, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 1, 1, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste5() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 1, 1, 1, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 0, 1, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste6() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 1, 0, 1, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-		
-	@Test
-	void teste9() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
@@ -156,213 +161,77 @@ class JogoTest {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-
-	@Test
-	void teste10() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste11() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0 },			
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste12() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0, 0 }	
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0 }
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste13() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, -1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }			
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste14() {
-		Jogo jogo = new Jogo();
-		int[][] tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 2, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }			
-		};
-		int[][] esperado = null;
-		int [][] resultado = jogo.gerarProximaGeracao(tabuleiroInicial);
-		assertArrayEquals(esperado, resultado);
-	}
+			{ 0, 0, 0, 0, 0, 0 }		
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+		tabuleiroInicial = new int[][] {
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, -1, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0 }	
+		};				
+		assertArrayEquals(jogoCorreto.gerarProximaGeracao(tabuleiroInicial), jogo.gerarProximaGeracao(tabuleiroInicial));
+	}	
+	
 	
 	@Test
-	void teste15() {	
+	void testeTamanho() {	
 		assertEquals(6, Jogo.m);
 		assertEquals(6, Jogo.n);
 	}
 	
-	@Test
-	void teste16() {
-		Jogo jogo = new Jogo();
-		JogoForTest jogoCerto = new JogoForTest();	
-		int[][] resultado = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resultado));
-	}
-	
-
-	@Test
-	void teste17() {
-		Jogo jogo = new Jogo();
-		JogoForTest jogoCerto = new JogoForTest();
-		int[][] resultado = jogo.gerarProximaGeracao(new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		});
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resultado));
-		assertArrayEquals(jogoCerto.gerarProximaGeracao(new int[][] {
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0 }
-		}), resultado);
-	}
-	
-	@Test
-	void teste18() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();
-		int[][] resultado = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resultado));		
-	}
-	
-	@Test
-	void teste19() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();
-		int[][] intermediario = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(intermediario));	
-		int[][] resultado = jogo.gerarProximaGeracao(intermediario);
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resultado));		
-		int[][] esperado = jogoCerto.gerarProximaGeracao(intermediario);
-		assertArrayEquals(esperado, resultado);
-	}
-	
-	@Test
-	void teste20() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();	
-		int[][][] resInter = new int[][][] {
-			jogo.gerarTabuleiroAleatorio(),
-			jogo.gerarTabuleiroAleatorio()
-		};
-		boolean resp =  true;
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
-				if(resInter[0][i][j] != resInter[1][i][j]) {
-					resp = false;
-					break;
-				}
-			}
-			if (resp == false) {
-				break;
-			}
-		}
-		assertEquals(false, resp);
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resInter[0]));
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(resInter[1]));
-	}
-	
-	@Test
-	void teste21() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();	
-		int[][] intermediario = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(intermediario));
-		assertEquals(jogoCerto.tabuleiroValoresValidos(intermediario), jogoCerto.tabuleiroValoresValidos(intermediario));
-		
-	}
-	
-	@Test
-	void teste22() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();	
-		int[][] intermediario = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(intermediario));
-		assertArrayEquals(jogoCerto.getVizinhos(intermediario, 2, 2), jogo.getVizinhos(intermediario, 2, 2));
-		assertEquals(jogoCerto.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, 2, 2)), jogo.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, 2, 2)));
-	}
-	
-	@Test
-	void teste23() {
-		Jogo jogo = new Jogo();	
-		JogoForTest jogoCerto = new JogoForTest();	
-		int[][] intermediario = jogo.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(intermediario));
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
-				assertArrayEquals(jogoCerto.getVizinhos(intermediario, i, j), jogo.getVizinhos(intermediario, i, j));
-				assertEquals(jogoCerto.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, i, j)), jogo.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, i, j)));
-			}
-		}
-		intermediario = jogoCerto.gerarTabuleiroAleatorio();
-		assertEquals(true, jogoCerto.tabuleiroValoresValidos(intermediario));
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
-				assertArrayEquals(jogoCerto.getVizinhos(intermediario, i, j), jogo.getVizinhos(intermediario, i, j));
-				assertEquals(jogoCerto.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, i, j)), jogo.getQuantidadeCelulasVivas(jogo.getVizinhos(intermediario, i, j)));
-			}
-		}
-	}
 }
