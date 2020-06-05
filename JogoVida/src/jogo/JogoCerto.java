@@ -1,3 +1,7 @@
+/**
+ * Autores: Rafael dos Santos Braz; Gustavo Oliveira Dias.
+ */
+
 package jogo;
 
 import java.util.Random;
