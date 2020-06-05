@@ -2,7 +2,7 @@ package jogo;
 
 import java.util.Random;
 
-public class JogoForTest {
+public class JogoCerto {
 
 	public int[][] gerarTabuleiroAleatorio() {
 		int[][] tabuleiro = new int[6][6];
